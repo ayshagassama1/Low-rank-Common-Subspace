@@ -35,7 +35,7 @@ Y4 = zeros(K*n,d);
 %% parameters initialization
 lambda1 = 1e-1; %% error term ||E||_{2,1}
 lambda2 = 1e-2; %% error term ||Est||_1
-maxiter = 200; %% maximum iteration
+maxiter = 60; %% maximum iteration
 max_mu = 1e6;
 rho = 1.2;
 mu = 1e-5;
