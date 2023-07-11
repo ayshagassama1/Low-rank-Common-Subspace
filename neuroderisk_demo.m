@@ -28,28 +28,30 @@ end
 
 Xt = [];
 for i=1:K
-    Xt = [Xt;Xs{i}];
+    Xt = [Xt;Xs{i}'];
 end
 Xt = Xt';
-Yt = [Yt1;Yt2];
+%Yt = [Yt1;Yt2];
 
 %% training data of two views
-Xs = [Xs1;Xs2]';
-Ys = [Ys1;Ys2];
-Xs1 = Xs1';
-Xs2 = Xs2';
-%% Stack to Achieve Big Matrix Xs and Xt
-s1 = size(Xs1,2);
-s2 = size(Xs2,2);
-t2 = size(Xs2,2);
-[n,t1] = size(Xs1); %% high dim
-Xss = [Xs1, zeros(size(Xs2));
-    zeros(size(Xs1)), Xs2];
 
+Ys = [Ys1;Ys2];
+for i=1:K
+    Xs{i} = Xs{i}';
+end
+
+%% Stack to Achieve Big Matrix Xs and Xt
+s = 0;
+for i=1:K
+    s = s + size(Xs{i},2);
+end
+t = s;
+n = size(Xs1,1); %% high dim
+
+Xss = blkdiag(Xs{1}, Xs{2}, Xs{3}, Xs{4}, Xs{5});
 Xtt = [Xs1, Xs2];
 Xtt = [Xtt;Xtt];
-s = s1+s2;
-t = t1+t2;
+
 d = 200;
 
 %% call low-rank common subspace function
