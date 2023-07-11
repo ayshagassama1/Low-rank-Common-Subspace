@@ -26,32 +26,30 @@ for i=1:K
     Xs{i} = Xs{i} .* G{i};
 end
 
-Xss = [];
+Xt = [];
 for i=1:K
-    Xss = [Xss; Xs{i}];
+    Xt = [Xt;Xs{i}];
 end
-
-Xss = Xss';
-Xtt = Xss;
-
-for i=1:K
-    Xs{i} = Xs{i}';
-end
- 
+Xt = Xt';
+Yt = [Yt1;Yt2];
 
 %% training data of two views
-Ys = Compound';
-
-
+Xs = [Xs1;Xs2]';
+Ys = [Ys1;Ys2];
+Xs1 = Xs1';
+Xs2 = Xs2';
 %% Stack to Achieve Big Matrix Xs and Xt
-s = 0;
-t = 0;
-for i=1:K
-    s = s + size(Xs{i}, 1);
-    t = t + size(Xs{i}, 2);
-end
-n = size(Xs{1}, 2);
+s1 = size(Xs1,2);
+s2 = size(Xs2,2);
+t2 = size(Xs2,2);
+[n,t1] = size(Xs1); %% high dim
+Xss = [Xs1, zeros(size(Xs2));
+    zeros(size(Xs1)), Xs2];
 
+Xtt = [Xs1, Xs2];
+Xtt = [Xtt;Xtt];
+s = s1+s2;
+t = t1+t2;
 d = 200;
 
 %% call low-rank common subspace function
