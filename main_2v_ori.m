@@ -1,6 +1,6 @@
-clc
-clear all
-close all
+%clc
+%clear all
+%close all
 %% load 2-view data
 load 2view.mat
 K = 2;
