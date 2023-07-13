@@ -27,15 +27,16 @@ end
 
 %% training data of two views
 
+Xs2 = [];
+for i=1:K
+    Xs2 = [Xs2; Xs{i}];
+end
+Xs2 = Xs2';
+Xt = Xs2;
 for i=1:K
     Xs{i} = Xs{i}';
 end
 
-%Xt = [];
-%for i=1:K
-%    Xt = [Xt;Xs{i}];
-%end
-%Xt = Xt';
 %% Stack to Achieve Big Matrix Xs and Xt
 s = 0;
 for i=1:K
@@ -57,7 +58,7 @@ d = 91;
 P = LRCS(Xtt,Xss,t,s,n,K,d);
 
 %% Calculate the recognition rate
-Zs = P'*Xs;
+Zs = P'*Xs2;
 Zt = P'*Xt;
 Cls = cvKnn(Zt,Zs,Ys,1);
 acc = length(find(Cls==Yt))/length(Yt);
