@@ -1,20 +1,18 @@
-clc
-clear all
-close all
+
 %% load 2-view data
 load 2view.mat
 K = 2;
 %% Handling incomplete views
-n = size(Xs1, 2);
+n = min(size(Xs1, 1), size(Xs2, 1));
 
 missing_objs_1 = 1:(n/2);
 missing_objs_2 = (n/2):n;
 
 O1 = ones(size(Xs1,1), size(Xs1,2));
-O1(:, missing_objs_1) = 0;
+O1(missing_objs_1, :) = 0;
 
 O2 = ones(size(Xs2,1), size(Xs2,2));
-O2(:, missing_objs_2) = 0;
+O2(missing_objs_2, :) = 0;
 
 Xs1 = Xs1 .* O1;
 Xs2 = Xs2 .* O2;

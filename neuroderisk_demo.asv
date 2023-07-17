@@ -64,14 +64,12 @@ end
 
 Xtt = [Xtt; Xtt; Xtt; Xtt; Xtt];
 d = 88;
-n = n - n_test;
+n = n_test;
 %% call low-rank common subspace function
 P = LRCS(Xtt,Xss,t,s,n,K,d);
-
-%% Labels
-Y_uca = Y_uca'; Y_novartis = Y_novartis'; Y_sard = Y_sard'; Y_unifi = Y_unifi'; Y_msd = Y_msd';
-Ys = [Y_uca(rand_test); Y_novartis(rand_test); Y_sard(rand_test); Y_unifi(rand_test); Y_msd(rand_test)];
-Yt = [Y_uca(rand_test); Y_novartis(rand_test); Y_sard(rand_test); Y_unifi(rand_test); Y_msd(rand_test)];
+Ys = [Y_uca'; Y_novartis'; Y_sard'; Y_unifi'; Y_msd'];
+Y_uca = Y_uca'; Y_novartis = Y_novartis'; Y_sard = Y_sard'; Y_unifi'; Y_msd';
+Yt = [Y_uca'(rand_test); Y_novartis'(rand_test); Y_sard'(rand_test); Y_unifi'(rand_test); Y_msd'(rand_test)];
 %% Calculate the recognition rate
 Zs = P'*Xs2;
 Zt = P'*Xt;
