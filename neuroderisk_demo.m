@@ -28,13 +28,14 @@ end
 %% Test set
 n = size(Xs{1}, 2);
 n_test = floor(0.3 * n);
-Xt = cell(1,K);
+Xt = [];
 rand_test = randperm(n, n_test);
+train_set = setdiff(1:n, rand_test);
 for i=1:K
-    Xt{i} = Xs{i}(:, rand_test);
+    Xt = [Xt; Xs{i}(:, rand_test)];
     Xs{i}(:, rand_test) = [];
 end
-
+Xt = Xt';
 
 Xs2 = [];
 for i=1:K
@@ -69,9 +70,12 @@ n = n - n_test;
 P = LRCS(Xtt,Xss,t,s,n,K,d);
 
 %% Labels
-Y_uca = Y_uca'; Y_novartis = Y_novartis'; Y_sard = Y_sard'; Y_unifi = Y_unifi'; Y_msd = Y_msd';
-Ys = [Y_uca(rand_test); Y_novartis(rand_test); Y_sard(rand_test); Y_unifi(rand_test); Y_msd(rand_test)];
-Yt = [Y_uca(rand_test); Y_novartis(rand_test); Y_sard(rand_test); Y_unifi(rand_test); Y_msd(rand_test)];
+%Y_uca = Y_uca'; Y_novartis = Y_novartis'; Y_sard = Y_sard'; Y_unifi = Y_unifi'; Y_msd = Y_msd';
+Y = [Y_uca, Y_novartis, Y_sard, Y_unifi, Y_msd];
+Y = Y';
+Ys = [Y(train_set); Y(train_set); Y(train_set); Y(train_set); Y(train_set)];
+Yt = [Y(rand_test); Y(rand_test); Y(rand_test); Y(rand_test); Y(rand_test)];
+%Yt = Yt';
 %% Calculate the recognition rate
 Zs = P'*Xs2;
 Zt = P'*Xt;
