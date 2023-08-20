@@ -1,6 +1,6 @@
 clc
-clear all
-close all
+%clear all
+%close all
 %% load 2-view data
 load 2view.mat
 K = 2;
@@ -15,8 +15,9 @@ Yt = [Yt1;Yt2];
 %% training data of two views
 Xs = [Xs1;Xs2]';
 Ys = [Ys1;Ys2];
-
-%% Stack to Acehive Big Matrix Xs and Xt
+Xs1 = Xs1';
+Xs2 = Xs2';
+%% Stack to Achieve Big Matrix Xs and Xt
 s1 = size(Xs1,2);
 s2 = size(Xs2,2);
 t2 = size(Xs2,2);
@@ -36,7 +37,7 @@ P = LRCS(Xtt,Xss,t,s,n,K,d);
 %% Calculate the recognition rate
 Zs = P'*Xs;
 Zt = P'*Xt;
-Cls = knnclassify(Zt',Zs',Ys,1);
+Cls = cvKnn(Zt,Zs,Ys,1);
 acc = length(find(Cls==Yt))/length(Yt);
 fprintf('Results+NN=%0.4f\n',acc);
 
