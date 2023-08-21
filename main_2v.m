@@ -1,8 +1,9 @@
-clc
+%clc
 %clear all
 %close all
 %% load 2-view data
 load 2view.mat
+load cmupie-L.mat
 K = 2;
 
 %% test data of two views
@@ -32,7 +33,7 @@ t = t1+t2;
 d = 200;
 
 %% call low-rank common subspace function
-P = LRCS(Xtt,Xss,t,s,n,K,d);
+P = LRCS(Xtt,Xss,t,s,n,K,d, Lf);
 
 %% Calculate the recognition rate
 Zs = P'*Xs;

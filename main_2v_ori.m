@@ -1,6 +1,6 @@
-clc
-clear all
-close all
+%clc
+%clear all
+%close all
 %% load 2-view data
 load 2view.mat
 K = 2;
@@ -32,7 +32,7 @@ t = t1+t2;
 d = 200;
 
 %% call low-rank common subspace function
-P = LRCS(Xtt,Xss,t,s,n,K,d);
+P = LRCS2(Xtt,Xss,t,s,n,K,d);
 
 %% Calculate the recognition rate
 Zs = P'*Xs;

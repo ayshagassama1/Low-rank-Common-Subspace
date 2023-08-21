@@ -1,4 +1,4 @@
-function Pn = LRCS(Xt,Xs,t,s,n,K,d)
+function Pn = LRCS(Xt,Xs,t,s,n,K,d, L)
 
 %% |Z|_* + |Pt|_*+lambda1|E|_2,1+lambda2|Est|_1, s.t. Ps'*Xs = Pt'*Xt*Z+E, Ps = Pt + Est
 %% for the detail solution, please refer to our ICDM 14 paper
@@ -35,7 +35,7 @@ Y4 = zeros(K*n,d);
 %% parameters initialization
 lambda1 = 1e-1; %% error term ||E||_{2,1}
 lambda2 = 1e-2; %% error term ||Est||_1
-maxiter = 5; %% maximum iteration
+maxiter = 50; %% maximum iteration
 max_mu = 1e6;
 rho = 1.2;
 mu = 1e-5;
@@ -56,7 +56,7 @@ for iter = 1:maxiter
         svp = 1;
         sigma = 0;
     end
-    J = U(:,1:svp)*diag(sigma)*V(:,1:svp)';
+    J = U(:,1:svp)*diag(sigma)*V(:,1:svp)' + trace(J'*L*J);
     
     %% update Z
     Z1 = Xt'*Pt*Pt'*Xt + eye(t);
