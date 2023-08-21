@@ -35,6 +35,7 @@ Y4 = zeros(K*n,d);
 %% parameters initialization
 lambda1 = 1e-1; %% error term ||E||_{2,1}
 lambda2 = 1e-2; %% error term ||Est||_1
+lambda3 = 1;
 maxiter = 50; %% maximum iteration
 max_mu = 1e6;
 rho = 1.2;
@@ -45,6 +46,11 @@ for iter = 1:maxiter
     disp(iter)
     %% update J
     temp = Z + Y3/mu;
+    % The main modification of HMVL-1
+    %temp = temp + lambda3*(L * temp + temp * L');
+    temp(isnan(temp)) = 0;
+    temp(isinf(temp)) = 0;
+    
     [U,sigma,V] = svd(temp,'econ');
     sigma = diag(sigma);
     svp = length(find(sigma>1/mu));
@@ -56,7 +62,7 @@ for iter = 1:maxiter
         svp = 1;
         sigma = 0;
     end
-    J = U(:,1:svp)*diag(sigma)*V(:,1:svp)' + trace(J'*L*J);
+    J = U(:,1:svp)*diag(sigma)*V(:,1:svp)' + lambda3*(L * J + L'*J);
     
     %% update Z
     Z1 = Xt'*Pt*Pt'*Xt + eye(t);
@@ -86,6 +92,8 @@ for iter = 1:maxiter
         Pt1 = Xt*Z*Z'*Xt' + 2*eye(K*n);
         Pt2 = Xt*Z*(Ps'*Xs-E)'+ Ps -Est + Qt + (Xt*Z*Y1'+Y2-Y4)/mu;
         Pt = Pt1\Pt2;
+        Pt(isnan(Pt)) = 0;
+        Pt(isinf(Pt)) = 0;
         Pt = sqrt(K)*orth(Pt/sqrt(K));
         
         %% update Est

@@ -38,6 +38,10 @@ P = LRCS(Xtt,Xss,t,s,n,K,d, Lf);
 %% Calculate the recognition rate
 Zs = P'*Xs;
 Zt = P'*Xt;
+save('cmu-hybrid-Zs', 'Zs');
+save('cmu-hybrid-Zt', 'Zt');
+save('cmu-hybrid-Ys', 'Ys');
+save('cmu-hybrid-Yt', 'Yt');
 Cls = cvKnn(Zt,Zs,Ys,1);
 acc = length(find(Cls==Yt))/length(Yt);
 fprintf('Results+NN=%0.4f\n',acc);
