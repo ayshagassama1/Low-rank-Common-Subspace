@@ -54,7 +54,7 @@ for i=1:K
 end
 
 Xtt = [Xtt; Xtt; Xtt; Xtt; Xtt];
-d = 23;
+d = 20;
 % n = n - n_test;
 n = size(Xs{1},1);
 %% call low-rank common subspace function
